@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "914925089748",
+    "project_id": "ionic-notification-cb5e2",
+    "storage_bucket": "ionic-notification-cb5e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914925089748:android:0ece328f3b770880945c41",
+        "android_client_info": {
+          "package_name": "com.archrinto.ionic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914925089748-c18kdfuir5tkeg41hjk88v4k3tkjkqd3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_hTojKDSeRoXLIF4CCfBfE3tBzqd15HA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914925089748-c18kdfuir5tkeg41hjk88v4k3tkjkqd3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
