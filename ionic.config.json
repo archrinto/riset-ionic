@@ -1,0 +1,7 @@
+{
+  "name": "Riset Ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
