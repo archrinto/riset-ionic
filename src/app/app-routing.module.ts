@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'firebase-notes',
+    loadChildren: () => import('./pages/firebase-notes/firebase-notes.module').then( m => m.FirebaseNotesPageModule)
   }
 ];
 @NgModule({
