@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { NoteFormComponent } from './components/note-form/note-form.component';
 import { NotesService } from './services/notes.service';
 
@@ -8,9 +9,11 @@ import { NotesService } from './services/notes.service';
   templateUrl: './firebase-notes.page.html',
   styleUrls: ['./firebase-notes.page.scss'],
 })
-export class FirebaseNotesPage implements OnInit {
+export class FirebaseNotesPage implements OnInit, OnDestroy {
 
   private notes: any[];
+
+  notesSubscription: Subscription;
 
   constructor(
     private notesService: NotesService,
@@ -18,8 +21,9 @@ export class FirebaseNotesPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.notesService.getNotes().subscribe(data => {
+    this.notesSubscription = this.notesService.getNotes().subscribe(data => {
       this.notes = data;
+      console.log('-- load notes');
     })
   }
 
@@ -41,6 +45,12 @@ export class FirebaseNotesPage implements OnInit {
       initialBreakpoint: 0.5,
     });
     modal.present();
+  }
+
+  ngOnDestroy(): void {
+    if (this.notesSubscription) {
+      this.notesSubscription.unsubscribe();
+    }
   }
 
 }

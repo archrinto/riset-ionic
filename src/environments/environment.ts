@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  firebase: {},
+  // firebase: {},
+  firebase: {
+    apiKey: "AIzaSyCxnH8lr-hVFedmuxspnR-YBgteadDjPng",
+    authDomain: "riset-ionic.firebaseapp.com",
+    projectId: "riset-ionic",
+    storageBucket: "riset-ionic.appspot.com",
+    messagingSenderId: "845110872066",
+    appId: "1:845110872066:web:e9749f0514dd22bcfaff1b",
+    measurementId: "G-9FREL2Y1KR"
+  }
 };
 
 /*

@@ -1,0 +1,12 @@
+<ion-item detail>
+  <ion-avatar slot="start">
+    <img [src]="user.picture" />
+  </ion-avatar>
+  <ion-label>
+    <h3>{{ user.name }}</h3>
+    <p>{{ user.bio }}</p>
+  </ion-label>
+  <span slot="end" class="ion-padding-end">
+    {{ user.isOnline ? 'Online' : 'Offline' }}
+  </span>
+</ion-item>

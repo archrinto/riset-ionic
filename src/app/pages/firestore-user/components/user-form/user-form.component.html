@@ -1,0 +1,35 @@
+<div class="ion-padding">
+  <div>
+    <ion-item>
+      <ion-label position="floating">
+        Name
+      </ion-label>
+      <ion-input [value]="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Email
+      </ion-label>
+      <ion-input [value]="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Picture
+      </ion-label>
+      <ion-input [value]="picture"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Bio
+      </ion-label>
+      <ion-textarea [value]="bio"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Online</ion-label>
+      <ion-toggle (ionChange)="isOnline = !isOnline" [checked]="isOnline" color="tertiary"></ion-toggle>
+    </ion-item>
+  </div>
+  <div class="ion-margin-vertical">
+    <ion-button expand="block" color="tertiary" (click)="handleSubmit()">Submit</ion-button>
+  </div>
+</div>

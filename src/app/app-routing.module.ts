@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'firebase-notes',
     loadChildren: () => import('./pages/firebase-notes/firebase-notes.module').then( m => m.FirebaseNotesPageModule)
+  },
+  {
+    path: 'firestore-user',
+    loadChildren: () => import('./pages/firestore-user/firestore-user.module').then( m => m.FirestoreUserPageModule)
   }
 ];
 @NgModule({

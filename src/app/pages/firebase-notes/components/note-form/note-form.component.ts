@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { NotesService } from '../../services/notes.service';
 
 @Component({
@@ -7,11 +8,13 @@ import { NotesService } from '../../services/notes.service';
   templateUrl: './note-form.component.html',
   styleUrls: ['./note-form.component.scss'],
 })
-export class NoteFormComponent implements OnInit {
+export class NoteFormComponent implements OnInit, OnDestroy {
   @Input() id: string;
 
   title: string;
   content: string;
+
+  noteSubscription: Subscription;
 
   constructor(
     private notesService: NotesService,
@@ -20,10 +23,12 @@ export class NoteFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.id) {
-      this.notesService.getNoteById(this.id).subscribe((res: any) => {
+      this.noteSubscription = this.notesService.getNoteById(this.id).subscribe((res: any) => {
         console.log('updated')
         this.title = res?.title;
         this.content = res?.content;
+
+        console.log('-- load detail note');
       });
     }
   }
@@ -41,6 +46,12 @@ export class NoteFormComponent implements OnInit {
       });
     }
     this.modalCtrl.dismiss();
+  }
+
+  ngOnDestroy(): void {
+    if (this.noteSubscription) {
+      this.noteSubscription.unsubscribe();
+    }
   }
 
 }
