@@ -1,0 +1,71 @@
+<div class="timepicker-wrapper">
+  <!-- Hour -->
+  <div class="select-number">
+    <button 
+      (click)="prevHour()"
+      [disabled]="disabled"
+    >
+      <ion-icon name="caret-up-outline"></ion-icon>
+    </button>
+    <div class="preview-number">
+      {{ hourFormatted() }}
+    </div>
+    <button
+      (click)="nextHour()"
+      [disabled]="disabled"
+    >
+      <ion-icon name="caret-down-outline"></ion-icon>
+    </button>
+  </div>
+
+  <div class="sparator">
+    <span>:</span>
+  </div>
+
+  <!-- Minute -->
+  <div class="select-number">
+    <button 
+      (click)="prevMinute()"
+      [disabled]="disabled"
+    >
+      <ion-icon name="caret-up-outline"></ion-icon>
+    </button>
+    <div class="preview-number">
+      {{ minuteFormatted() }}
+    </div>
+    <button
+      (click)="nextMinute()"
+      [disabled]="disabled"
+    >
+      <ion-icon name="caret-down-outline"></ion-icon>
+    </button>
+  </div>
+  <div>
+    <div class="am-pm-options">
+      <input
+        id="timepicker-am"
+        type="radio"
+        value="AM"
+        name="time_part"
+        [(ngModel)]="timePart"
+        [disabled]="disabled || amDisabled"
+        (ngModelChange)="partChanged()"
+      />
+      <label for="timepicker-am" class="am-label">
+        <span>AM</span>
+      </label>
+      <input
+        id="timepicker-pm"
+        type="radio"
+        value="PM"
+        name="time_part"
+        [(ngModel)]="timePart"
+        [disabled]="disabled || pmDisabled"
+        (ngModelChange)="partChanged()"
+      />
+      <label for="timepicker-pm" class="pm-label">
+        <span>PM</span>
+      </label>
+    </div>
+  </div>
+</div>

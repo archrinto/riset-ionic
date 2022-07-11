@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'firestore-user',
     loadChildren: () => import('./pages/firestore-user/firestore-user.module').then( m => m.FirestoreUserPageModule)
+  },
+  {
+    path: 'custom-datetimepicker',
+    loadChildren: () => import('./pages/custom-datetimepicker/custom-datetimepicker.module').then( m => m.CustomDatetimepickerPageModule)
   }
 ];
 @NgModule({
