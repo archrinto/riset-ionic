@@ -72,6 +72,8 @@ export class TimePickerComponent implements OnInit {
 
     this.hourValues = this.getHourOptions();
     this.minuteValues = this.getMinuteOptions();
+
+    this.validateTimeOptions();
   }
 
   convert24to12(time24) {

@@ -8,6 +8,7 @@ import { CustomDatetimepickerPageRoutingModule } from './custom-datetimepicker-r
 
 import { CustomDatetimepickerPage } from './custom-datetimepicker.page';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     IonicModule,
     CustomDatetimepickerPageRoutingModule
   ],
-  declarations: [CustomDatetimepickerPage, TimePickerComponent]
+  declarations: [CustomDatetimepickerPage, TimePickerComponent, DatePickerComponent]
 })
 export class CustomDatetimepickerPageModule {}

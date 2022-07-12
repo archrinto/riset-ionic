@@ -1,3 +1,21 @@
-<p>
-  date-picker works!
-</p>
+<div class="datepicker-wrapper">
+  <ion-slides
+    #slides
+    [options]="{
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      enabled: !disabled
+    }">
+    <ion-slide *ngFor="let item of _dateList; let i = index">
+      <button
+        class="date-option {{ i == selectedIndex ? 'active' : ''}} {{ !item.isActive ? 'inactive' : ''}}"
+        type="button"
+        [disabled]="!item.isActive || disabled"
+        (click)="selectIndex(i)"
+      >
+        <span class="date">{{ item.date.date() }}</span>
+        <span class="month">{{ item.date.format('MMM') }}</span>
+      </button>
+    </ion-slide>
+  </ion-slides>
+</div>

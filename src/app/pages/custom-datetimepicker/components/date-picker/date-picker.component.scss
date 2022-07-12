@@ -1,0 +1,37 @@
+.datepicker-wrapper {
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  ion-slide {
+    width: 60px;
+  }
+
+  .date-option {
+    background-color: #F1F7F7;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 18px;
+    border-radius: 16px;
+
+    &.active {
+      background-color: #21485C;
+      color: #FFFFFF;
+    }
+
+    &.inactive {
+      color: #B1B7B7;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 24px;
+    }
+
+    .month {
+      font-size: 12px;
+    }
+  }
+}
