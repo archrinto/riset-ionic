@@ -6,6 +6,11 @@
 
 <ion-content class="ion-padding">
   <div>
-    <app-time-picker min="2022-07-11T08:30" max="2022-07-11T16:00"></app-time-picker>
+    <app-time-picker
+      min="2022-07-11T08:30"
+      max="2022-07-11T16:00"
+      [minuteInterval]="15"
+      (onChange)="handleTimeChange($event)"
+    ></app-time-picker>
   </div>
 </ion-content>

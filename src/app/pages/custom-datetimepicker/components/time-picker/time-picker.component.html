@@ -4,8 +4,10 @@
     <button 
       (click)="prevHour()"
       [disabled]="disabled"
+      class="ion-activatable ripple-parent"
     >
       <ion-icon name="caret-up-outline"></ion-icon>
+      <ion-ripple-effect></ion-ripple-effect>
     </button>
     <div class="preview-number">
       {{ hourFormatted() }}
@@ -13,8 +15,10 @@
     <button
       (click)="nextHour()"
       [disabled]="disabled"
+      class="ion-activatable ripple-parent"
     >
       <ion-icon name="caret-down-outline"></ion-icon>
+      <ion-ripple-effect></ion-ripple-effect>
     </button>
   </div>
 
@@ -27,8 +31,10 @@
     <button 
       (click)="prevMinute()"
       [disabled]="disabled"
+      class="ion-activatable ripple-parent"
     >
       <ion-icon name="caret-up-outline"></ion-icon>
+      <ion-ripple-effect></ion-ripple-effect>
     </button>
     <div class="preview-number">
       {{ minuteFormatted() }}
@@ -36,8 +42,10 @@
     <button
       (click)="nextMinute()"
       [disabled]="disabled"
+      class="ion-activatable ripple-parent"
     >
       <ion-icon name="caret-down-outline"></ion-icon>
+      <ion-ripple-effect></ion-ripple-effect>
     </button>
   </div>
   <div>
@@ -51,8 +59,9 @@
         [disabled]="disabled || amDisabled"
         (ngModelChange)="partChanged()"
       />
-      <label for="timepicker-am" class="am-label">
+      <label for="timepicker-am" class="am-label ion-activatable ripple-parent">
         <span>AM</span>
+        <ion-ripple-effect></ion-ripple-effect>
       </label>
       <input
         id="timepicker-pm"
@@ -63,8 +72,9 @@
         [disabled]="disabled || pmDisabled"
         (ngModelChange)="partChanged()"
       />
-      <label for="timepicker-pm" class="pm-label">
+      <label for="timepicker-pm" class="pm-label ion-activatable ripple-parent">
         <span>PM</span>
+        <ion-ripple-effect></ion-ripple-effect>
       </label>
     </div>
   </div>

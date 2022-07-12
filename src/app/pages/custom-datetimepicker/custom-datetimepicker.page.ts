@@ -12,4 +12,8 @@ export class CustomDatetimepickerPage implements OnInit {
   ngOnInit() {
   }
 
+  handleTimeChange(value) {
+    console.log(value);
+  }
+
 }

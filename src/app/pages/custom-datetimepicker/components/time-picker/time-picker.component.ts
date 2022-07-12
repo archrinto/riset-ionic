@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
@@ -15,7 +15,6 @@ export class TimePickerComponent implements OnInit {
 
   hour: number;
   minute: number;
-  minuteInterval = 10;
   minHour: number;
   maxHour: number;
   minMinute: number;
@@ -26,11 +25,17 @@ export class TimePickerComponent implements OnInit {
   amDisabled: boolean = false;
   pmDisabled: boolean = false;
 
+  hourValues: Array<number>;
+  minuteValues: Array<number>;
+
   @Input() value: string; // string date time
   @Input() min: string; // string date time
   @Input() max: string; // string date time
   @Input() disabled: boolean = false;
   @Input() hourInterval: number = 1;
+  @Input() minuteInterval: number = 10;
+
+  @Output() onChange = new EventEmitter<string>();
 
   constructor() {
     this.minHour = this._minHour;
@@ -62,7 +67,11 @@ export class TimePickerComponent implements OnInit {
     }
 
     [this.hour, this.minute, this.timePart] = this.convert24to12(now);
-    this.validTimeOption();
+
+    this.minute = Math.ceil(this.minute / this.minuteInterval) * this.minuteInterval;
+
+    this.hourValues = this.getHourOptions();
+    this.minuteValues = this.getMinuteOptions();
   }
 
   convert24to12(time24) {
@@ -70,32 +79,46 @@ export class TimePickerComponent implements OnInit {
   }
 
   nextHour() {
-    if ((this.hour + this.hourInterval) <= this.maxHour) {
-      this.hour += this.hourInterval;
+    const nextH = this.hour + this.hourInterval; 
+    if (nextH <= this.maxHour) {
+      this.setHour(nextH);
+    } else {
+      if (nextH < this.hourValues[this.hourValues.length - 1]) {
+        this.timePart = 'PM';
+      }
     }
+    this.timeChanged();
   }
 
   prevHour() {
-    if ((this.hour - this.hourInterval) >= this.minHour) {
-      this.hour -= this.hourInterval;
-      if (this.hour === this.minHour) {
-        if (this.minute < this.minMinute) {
-          this.minute = this.minMinute;
-        }
+    let prevH = this.hour - this.hourInterval
+    if (prevH >= this.minHour) {
+      this.setHour(prevH);
+    } else {
+      if (prevH < 0) {
+        prevH = 12 + prevH
+      }
+
+      if (prevH > this.hourValues[0]) {
+        this.timePart = 'AM';
+        this.setHour(prevH);
       }
     }
+    this.timeChanged();
   }
 
   nextMinute() {
     if ((this.minute + this.minuteInterval) <= this.maxMinute) {
       this.minute += this.minuteInterval;
     }
+    this.timeChanged();
   }
 
   prevMinute() {
     if ((this.minute - this.minuteInterval) >= this.minMinute) {
       this.minute -= this.minuteInterval;
     }
+    this.timeChanged();
   }
 
   minuteFormatted() {
@@ -103,55 +126,87 @@ export class TimePickerComponent implements OnInit {
   }
 
   hourFormatted() {
-    return this.numberPadding(this.hour);
+    return this.numberPadding(this.hour === 0 ? 12 : this.hour);
   }
 
   numberPadding(numb: number) {
     return numb?.toString().padStart(2, '0');
   }
 
-  validTimeOption() {
-    const [minHH, minMM, minAA] = this.convert24to12(this.minTime);
-    const [maxHH, maxMM, maxAA] = this.convert24to12(this.maxTime);
+  getHour24() {
+    return this.hour + (this.timePart === 'PM' ? 12 : 0);
+  }
 
-    if (minAA === 'PM') {
-      if (this.timePart === 'AM') {
-        this.timePart = 'PM';
-      }
+  setHour(hour) {
+    this.hour = hour;
+    this.minuteValues = this.getMinuteOptions();
+  }
 
-      this.amDisabled = true;
-    }
-
-    if (maxAA === 'AM') {
-      this.pmDisabled = true;
-    }
-
+  validateTimeOptions() {
+    // validate min hour options
     if (this.timePart === 'AM') {
-      if (minAA === 'AM') {
-        this.minHour = minHH;
-        this.minMinute = minMM;
-      }
+      const validHours = this.hourValues.filter(h => h < 12);
+      this.minHour = validHours[0];
+      this.maxHour = validHours[validHours.length - 1];
     } else {
-      if (minAA === 'AM') {
-        this.minHour = this._minHour;
-        this.minMinute = this._minHour;
-      } else {
-        this.minHour = minHH;
-        this.minMinute = minMM;
-      }
+      const validHours = this.hourValues.filter(h => h >= 12);
+      // this.minHour = validHours[0] > 12 ? validHours[0] % 12 : validHours[0];
+      this.minHour = validHours[0] % 12;
+      this.maxHour = validHours[validHours.length - 1] % 12;
     }
 
-    if (this.hour < this.minHour) {
-      this.hour = this.minHour;
-      if (this.minute < this.minMinute) {
-        this.minute = this.minMinute;
-      }
+    if (this.hour < this.minHour || this.hour > this.maxHour) {
+      this.setHour(this.minHour);
     }
 
+    this.minMinute = this.minuteValues[0] ?? 0;
+    this.maxMinute = this.minuteValues[this.minuteValues.length - 1] ?? 0;
+
+    if (this.minute < this.minMinute || this.minute > this.maxMinute) {
+      this.minute = this.minMinute;
+    }
+  }
+
+  getHourOptions() {
+    const hourOpts = [];
+    const [minH, minM] = [this.minTime.hour(), this.minTime.minute()];
+    const [maxH, maxM] = [this.maxTime.hour(), this.maxTime.minute()];
+
+    for (let h = minH; h < (maxM > 0 ? maxH+1 : maxH); h = h + this.hourInterval) {
+      hourOpts.push(h);
+    }
+    return hourOpts;
+  }
+
+  getMinuteOptions() {
+    let minM = this._minMinute;
+    let maxM = this._maxMinute;
+    const minuteOpts = [];
+
+    if (this.getHour24() === this.minTime.hour()) {
+      minM = this.minTime.minute();
+    }
+    if (this.getHour24() === this.maxTime.hour()) {
+      maxM = this.maxTime.minute();
+    }
+
+    minM = Math.ceil(minM / this.minuteInterval) * this.minuteInterval;
+    maxM = Math.ceil(maxM / this.minuteInterval) * this.minuteInterval;
+    
+    for (let m = minM; m < maxM; m = m + this.minuteInterval) {
+      minuteOpts.push(m);
+    }
+
+    return minuteOpts;
+  }
+
+  timeChanged() {
+    this.validateTimeOptions();
+    this.onChange.emit(`${this.hourFormatted()}:${this.minuteFormatted()} ${this.timePart}`);
   }
 
   partChanged() {
-    this.validTimeOption();
+    this.timeChanged();
   }
 
 }
