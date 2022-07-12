@@ -35,7 +35,7 @@
       transition: color 0.3s ease;
 
       &:hover {
-        color: inherit;
+        color: #3B4F5B;
       }
     }
 
@@ -46,6 +46,7 @@
       font-weight: 600;
       font-size: 24px;
       line-height: 32px;
+      color: #3B4F5B;
     }
   }
 
@@ -58,6 +59,7 @@
     border-radius: 14px;
     position: relative;
     overflow: hidden;
+    background-color: #FFFFFF;
 
     input, input[type="checkbox"], input[type="radio"] {
       position: absolute;
@@ -68,7 +70,7 @@
 
     input:checked {
       & + label {
-        color: inherit;
+        color: #3B4F5B;
       }
     }
 

@@ -8,13 +8,14 @@
     }">
     <ion-slide *ngFor="let item of _dateList; let i = index">
       <button
-        class="date-option {{ i == selectedIndex ? 'active' : ''}} {{ !item.isActive ? 'inactive' : ''}}"
+        class="date-option {{ i == selectedIndex ? 'active' : ''}} {{ !item.isActive ? 'inactive' : ''}} ion-activatable"
         type="button"
         [disabled]="!item.isActive || disabled"
         (click)="selectIndex(i)"
       >
         <span class="date">{{ item.date.date() }}</span>
         <span class="month">{{ item.date.format('MMM') }}</span>
+        <ion-ripple-effect></ion-ripple-effect>
       </button>
     </ion-slide>
   </ion-slides>
