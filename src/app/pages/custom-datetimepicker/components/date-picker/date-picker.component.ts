@@ -27,7 +27,7 @@ export class DatePickerComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input() daysDisabled: string[];
 
-  @Output() onChange = new EventEmitter<string>();
+  @Output() valueChange = new EventEmitter<string>();
 
   constructor() { }
 
@@ -51,10 +51,14 @@ export class DatePickerComponent implements OnInit {
 
     if (this.value) {
       if (!this.min && !this.max) {
-        this.minDate = moment(this.value).add(-3, 'days');
-        this.maxDate = moment(this.value).add(4, 'days');
+        if (this.disabled) {
+          this.minDate = moment(this.value).add(-3, 'days');
+          this.maxDate = moment(this.value).add(4, 'days');
+        } else {
+          this.maxDate = moment(this.value).add(1, 'months');
+        }
       }
-    }
+    } 
 
     this._dateList = this.getDateRange(this.minDate, this.maxDate);
 
@@ -67,7 +71,9 @@ export class DatePickerComponent implements OnInit {
     const value = moment(this.value);
     this.selectedIndex = this.getIndexOf(value);
 
-    this.slides.slideTo(this.selectedIndex - 2  < 0 ? this.selectedIndex : this.selectedIndex - 2);
+    if (this.selectedIndex - 2  > 0) {
+      this.slides.slideTo(this.selectedIndex - 2);
+    }
 
     setTimeout(() => {
       this.slides.lockSwipes(this.disabled);
@@ -76,7 +82,7 @@ export class DatePickerComponent implements OnInit {
 
   getIndexOf(value: moment.Moment) {
     for (let i = 0; i < this._dateList.length; i++) {
-      if (value.isSame(this._dateList[i].date)) {
+      if (value.isSame(this._dateList[i].date, 'day')) {
         return i;
       }
     }
@@ -102,13 +108,13 @@ export class DatePickerComponent implements OnInit {
 
   selectIndex(index: number) {
     this.selectedIndex = index;
-    this.valueChange()
+    this.dateChange()
   }
 
-  valueChange() {
+  dateChange() {
     const value = this._dateList[this.selectedIndex].date.format('YYYY-MM-DD');
-    this.onChange.emit(value);
+    this.valueChange.emit(value);
 
-    console.log('-- changed', value);
+    // console.log('-- changed', value);
   }
 }

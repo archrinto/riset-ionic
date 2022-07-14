@@ -28,14 +28,14 @@ export class TimePickerComponent implements OnInit {
   hourValues: Array<number>;
   minuteValues: Array<number>;
 
-  @Input() value: string; // string date time
-  @Input() min: string; // string date time
-  @Input() max: string; // string date time
+  @Input() value: string; //  hh:mm A
+  @Input() min: string; // hh:mm A
+  @Input() max: string; // hh:mm A
   @Input() disabled: boolean = false;
   @Input() hourInterval: number = 1;
-  @Input() minuteInterval: number = 10;
+  @Input() minuteInterval: number = 1;
 
-  @Output() onChange = new EventEmitter<string>();
+  @Output() valueChange = new EventEmitter<string>();
 
   constructor() {
     this.minHour = this._minHour;
@@ -46,24 +46,24 @@ export class TimePickerComponent implements OnInit {
 
   ngOnInit() {
     if (this.min) {
-      this.minTime = moment(this.min);
+      this.minTime = moment(this.min, 'hh:mm A');
       this.amDisabled = this.minTime.hour() >= 12;
     } else {
       this.minTime = moment('00:00', 'HH:mm');
     }
 
     if (this.max) {
-      this.maxTime = moment(this.max);
+      this.maxTime = moment(this.max, 'hh:mm A');
       this.pmDisabled = this.maxTime.hour() < 12;
     } else {
       this.maxTime = moment('23:59', 'HH:mm');
     }
 
-    console.log(this.minTime, this.maxTime);
+    // console.log(this.minTime, this.maxTime);
 
     let now = moment();
     if (this.value) {
-      now = moment(this.value);
+      now = moment(this.value, 'hh:mm A');
     }
 
     [this.hour, this.minute, this.timePart] = this.convert24to12(now);
@@ -204,7 +204,10 @@ export class TimePickerComponent implements OnInit {
 
   timeChanged() {
     this.validateTimeOptions();
-    this.onChange.emit(`${this.hourFormatted()}:${this.minuteFormatted()} ${this.timePart}`);
+    const val = `${this.hourFormatted()}:${this.minuteFormatted()} ${this.timePart}`;
+    this.valueChange.emit(val);
+
+    // console.log('-- changed', val);
   }
 
   partChanged() {

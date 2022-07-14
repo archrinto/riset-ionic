@@ -6,18 +6,12 @@
 
 <ion-content class="ion-padding">
   <div>
-    <app-date-picker
-      value="2022-07-22"
-      min="2022-07-10"
-      [disabled]="false"
-      [daysDisabled]="['monday','sunday']"
-    >  
-    </app-date-picker>
-    <app-time-picker
-      min="2022-07-11T08:30"
-      max="2022-07-11T16:00"
-      [minuteInterval]="15"
-      (onChange)="handleTimeChange($event)"
-    ></app-time-picker>
+    <app-datetime-picker
+      value="2022-07-24 12:10 AM"
+      [minuteInterval]="10"
+      [daysDisabled]="['sunday']"
+      (valueChange)="handleDateTimeChange($event)"
+    >
+    </app-datetime-picker>
   </div>
 </ion-content>

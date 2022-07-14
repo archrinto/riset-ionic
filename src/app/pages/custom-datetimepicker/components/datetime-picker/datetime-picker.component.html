@@ -1,0 +1,19 @@
+<div>
+  <app-date-picker
+    [value]="valueDate"
+    [min]="minDate"
+    [max]="maxDate"
+    [disabled]="disabled"
+    [daysDisabled]="daysDisabled"
+    (valueChange)="handleDateChange($event)"
+  >
+  </app-date-picker>
+  <app-time-picker
+    [value]="valueTime"
+    [min]="minTime"
+    [max]="maxTime"
+    [disabled]="disabled"
+    [minuteInterval]="minuteInterval"
+    (valueChange)="handleTimeChange($event)"
+  ></app-time-picker>
+</div>
